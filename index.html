@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para mi amada Yamileth 💖</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        overflow-x: hidden;
+        background-color: #fff0f6;
+    }
+
+    /* Corazones */
+    .corazones {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: -1;
+    }
+    .corazon {
+        position: absolute;
+        animation: flotar linear infinite;
+        opacity: 0.8;
+    }
+    @keyframes flotar {
+        0% { transform: translateY(100vh) scale(1); }
+        100% { transform: translateY(-10vh) scale(1.2); }
+    }
+
+    /* Título */
+    h1 {
+        font-size: 2.5em;
+        font-weight: bold;
+        text-align: center;
+        background: url("https://i.pinimg.com/originals/e4/5b/8d/e45b8d05649673bc8132ef7dcb8d1393.gif") no-repeat center center;
+        background-size: cover;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 10px 0;
+    }
+
+    /* Audio ocultable */
+    #audio {
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+
+    /* Slider */
+    .slider-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        height: 100vh;
+    }
+    .slider {
+        display: flex;
+        transition: transform 1s ease-in-out;
+        height: 100%;
+    }
+    .slide {
+        flex: 0 0 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Bordes degradados */
+    img, video {
+        max-width: 50%;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 15px;
+        padding: 5px;
+        background: linear-gradient(45deg, #ff7eb9, #ff65a3, #7afcff);
+    }
+
+    /* Texto al costado */
+    p {
+        max-width: 40%;
+        background: #fff0f6;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1.3em;
+        text-align: justify;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.9em;
+        color: #888;
+        margin: 20px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .slide {
+            flex-direction: column;
+        }
+        img, video {
+            max-width: 100%;
+        }
+        p {
+            max-width: 100%;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Corazones -->
+<div class="corazones"></div>
+
+<h1>💖 Feliz Cumpleaños, mi amada Yamileth 💖</h1>
+
+<!-- Audio -->
+<audio id="audio" controls>
+    <source src="cumple.mp3" type="audio/mp3">
+    Tu navegador no soporta audio.
+</audio>
+
+<!-- Slider -->
+<div class="slider-container">
+    <div class="slider" id="slider">
+        <!-- Slide 1 -->
+        <div class="slide">
+            <img src="uno.jpg" alt="Foto especial">
+            <p>Hoy es tu día especial, y quiero recordarte lo maravillosa que eres. Que cada instante de tu vida esté lleno de alegría, amor y sueños cumplidos. 🎂💐</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <img src="dos.jpg" alt="Foto romántica">
+            <p>Estar contigo es el regalo más hermoso que la vida me ha dado. Te amo más de lo que las palabras pueden decir. ❤️</p>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <video id="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
+            <p>Eres mi presente, mi futuro y mi razón de sonreír. Mi amor por ti es infinito. 💖</p>
+        </div>
+    </div>
+</div>
+
+<footer>Hecho con ❤️ solo para ti, Yamileth</footer>
+
+<script>
+    // Corazones multicolores
+    const corazonesEmoji = ["❤️", "🧡", "💛", "💚", "💙", "💜", "🤍", "💖", "💗", "💓"];
+    const contCorazones = document.querySelector('.corazones');
+    for (let i = 0; i < 20; i++) {
+        const c = document.createElement('div');
+        c.classList.add('corazon');
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.fontSize = (Math.random() * 20 + 20) + "px";
+        c.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        c.textContent = corazonesEmoji[Math.floor(Math.random() * corazonesEmoji.length)];
+        contCorazones.appendChild(c);
+    }
+
+    // Slider automático
+    const slider = document.getElementById('slider');
+    const video = document.getElementById('video');
+    let index = 0;
+    const totalSlides = document.querySelectorAll('.slide').length;
+
+    function mostrarSlide(n) {
+        slider.style.transform = `translateX(-${n * 100}%)`;
+    }
+
+    function avanzarSlide() {
+        index++;
+        if (index >= totalSlides) index = 0;
+        mostrarSlide(index);
+
+        if (index === 2) { // Video
+            clearInterval(timer);
+            timer = setInterval(avanzarSlide, 69000); // 69 s
+        } else {
+            clearInterval(timer);
+            timer = setInterval(avanzarSlide, 30000); // 30 s
+        }
+    }
+
+    let timer = setInterval(avanzarSlide, 30000);
+
+    // Ocultar audio al reproducir
+    const audio = document.getElementById('audio');
+    audio.addEventListener('play', () => {
+        audio.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
